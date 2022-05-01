@@ -556,13 +556,13 @@ class Rave
                 }
             } elseif ($response->body && $response->body->data && $response->body->data->status === 'failed') {
                 // Handle Failure
-                $this->logger->warn('Requeryed a failed transaction....' . json_encode($response->body->data));
+                $this->logger->warning('Requeryed a failed transaction....' . json_encode($response->body->data));
                 if (isset($this->handler)) {
                     $this->handler->onFailure($response->body->data);
                 }
             } else {
                 // Handled an undecisive transaction. Probably timed out.
-                $this->logger->warn('Requeryed an undecisive transaction....' . json_encode($response->body->data));
+                $this->logger->warning('Requeryed an undecisive transaction....' . json_encode($response->body->data));
                 // I will requery again here. Just incase we have some devs that cannot setup a queue for requery. I don't like this.
                 if ($this->requeryCount > 4) {
                     // Now you have to setup a queue by force. We couldn't get a status in 5 requeries.
@@ -683,7 +683,7 @@ class Rave
      * @param array
      */
 
-    public function postURL($data): object
+    public function postURL($data): string
     {
         // make request to endpoint using unirest
 
@@ -695,7 +695,7 @@ class Rave
         return $response->raw_body;    // Unparsed body
     }
 
-    public function putURL($data)
+    public function putURL($data): string
     {
         $bearerTkn = 'Bearer ' . $this->secretKey;
         $headers = ['Content-Type' => 'application/json', 'Authorization' => $bearerTkn];
@@ -705,7 +705,7 @@ class Rave
         return $response->raw_body;
     }
 
-    public function delURL($url)
+    public function delURL($url): string
     {
         $bearerTkn = 'Bearer ' . $this->secretKey;
         $headers = ['Content-Type' => 'application/json', 'Authorization' => $bearerTkn];
@@ -721,12 +721,11 @@ class Rave
      * @param array
      */
 
-    public function getURL($url): object
+    public function getURL($url): string
     {
         // make request to endpoint using unirest.
         $bearerTkn = 'Bearer ' . $this->secretKey;
         $headers = ['Content-Type' => 'application/json', 'Authorization' => $bearerTkn];
-        //$body = Body::json($data);
         $path = $this->baseUrl . '/' . $this->end_point;
         $response = Request::get($path . $url, $headers);
         return $response->raw_body;    // Unparsed body
@@ -751,7 +750,7 @@ class Rave
      *
      * @param string
      */
-    public function validateTransaction($otp, $ref, $type): object
+    public function validateTransaction($otp, $ref, $type): string
     {
         $this->logger->notice('Validating otp...');
         $this->setEndPoint('v3/validate-charge');
@@ -763,17 +762,17 @@ class Rave
         return $this->postURL($this->post_data);
     }
 
-    public function validateTransaction2($pin, $Ref)
-    {
-        $this->logger->notice('Validating pin...');
-        $this->setEndPoint('v3/validate-charge');
-        $this->post_data = [
-            'PBFPubKey' => $this->publicKey,
-            'transactionreference' => $Ref,
-            'otp' => $otp,
-        ];
-        return $this->postURL($this->post_data);
-    }
+//    public function validateTransaction2($pin, $Ref)
+//    {
+//        $this->logger->notice('Validating pin...');
+//        $this->setEndPoint('v3/validate-charge');
+//        $this->post_data = [
+//            'PBFPubKey' => $this->publicKey,
+//            'transactionreference' => $Ref,
+//            'otp' => $otp,
+//        ];
+//        return $this->postURL($this->post_data);
+//    }
 
     /**
      * Get all Transactions
@@ -857,7 +856,7 @@ class Rave
      * @param $id ,$email
      */
 
-    public function fetchASettlement(): object
+    public function fetchASettlement(): string
     {
         $this->logger->notice('Fetching a Subscription...');
         $url = '?seckey=' . $this->secretKey;
@@ -868,7 +867,7 @@ class Rave
      * activating  a subscription
      */
 
-    public function activateSubscription(): object
+    public function activateSubscription(): string
     {
         $this->logger->notice('Activating Subscription...');
         $data = [];
@@ -911,7 +910,7 @@ class Rave
         return json_decode($result, true);
     }
 
-    public function get_a_Plan()
+    public function get_a_plan()
     {
         $url = '';
         $result = $this->getURL($url);
@@ -950,7 +949,7 @@ class Rave
      * @param array
      */
 
-    public function transferSingle($array): object
+    public function transferSingle(array $array): object
     {
         $this->logger->notice('Processing transfer...');
         $result = $this->postURL($array);
@@ -970,7 +969,7 @@ class Rave
      * @param array
      */
 
-    public function transferBulk($array): object
+    public function transferBulk(array $array): object
     {
         $this->logger->notice('Processing bulk transfer...');
         $result = $this->postURL($array);
@@ -983,7 +982,7 @@ class Rave
      * @param array
      */
 
-    public function refund($array): object
+    public function refund(array $array): object
     {
         $this->logger->notice('Initiating a refund...');
         $result = $this->postURL($array);
@@ -996,7 +995,7 @@ class Rave
      * @param array
      */
 
-    public function chargePayment($array): object
+    public function chargePayment($array)
     {
 
         //remove the type param from the payload
@@ -1166,7 +1165,7 @@ class Rave
     /**
      * This is used to create virtual account for a merchant.
      */
-    public function createVirtualAccount(string $array): object
+    public function createVirtualAccount(string $array): string
     {
         $this->options = $array;
         $this->logger->notice('creating virtual account..');
@@ -1177,7 +1176,7 @@ class Rave
      * Create bulk virtual accounts with this method
      */
 
-    public function createBulkAccounts(string $array): object
+    public function createBulkAccounts(string $array): string
     {
         $this->options = $array;
         $this->logger->notice('creating bulk virtual account..');
@@ -1196,64 +1195,10 @@ class Rave
     }
 
     /**
-     * Create an Order with this method
-     */
-
-    public function createOrder(string $array): object
-    {
-        $this->logger->notice('creating Ebill order for customer with email: ' . $array['email']);
-
-        if (empty($array['narration']) || ! array_key_exists('narration', $array)) {
-            $array['narration'] = '';
-        }
-        if (empty($data['IP'])) {
-            $array['IP'] = '10.30.205.3';
-        }
-        if (! isset($array['custom_business_name']) || empty($array['custom_business_name'])) {
-            $array['custom_business_name'] = '';
-        }
-
-        if (empty($array['number_of_units']) || ! array_key_exists('number_of_units', $array)) {
-            $array['number_of_units'] = '1';
-        }
-
-        $data = [
-            'narration' => $array['narration'],
-            'number_of_units' => $array['number_of_units'],
-            'currency' => $array['currency'],
-            'amount' => $array['amount'],
-            'phone_number' => $array['phone_number'],
-            'email' => $array['email'],
-            'tx_ref' => $array['tx_ref'],
-            'ip' => $array['ip'],
-            'country' => $array['country'],
-            'custom_business_name' => $array['custom_business_name'],
-        ];
-        $result = $this->postURL($data);
-        return json_decode($result, true);
-    }
-
-    /**
-     * Update an Order with this method
-     */
-    public function updateOrder(string $array): object
-    {
-        $this->logger->notice('updating Ebill order..');
-
-        $data = [
-            'amount' => $array['amount'],
-            'currency' => 'NGN',// only NGN can be passed
-        ];
-
-        $result = $this->putURL($data);
-        return json_decode($result, true);
-    }
-
-    /**
      * pay bill or query bill information with this method
      */
 
-    public function bill(string $array): object
+    public function bill(array $array): object
     {
         if (! isset($array['type'])) {
             return ['Type' => 'Missing the type property in the payload'];
@@ -1282,7 +1227,7 @@ class Rave
         return json_decode($result, true);
     }
 
-    public function getBill($array)
+    public function getBill(array $array)
     {
         if (array_key_exists('reference', $array) && ! array_key_exists('from', $array)) {
             $url = '/' . $array['reference'];
@@ -1332,7 +1277,7 @@ class Rave
      * List of all transfers with this method
      */
 
-    public function listTransfers(string $data): object
+    public function listTransfers(array $data): object
     {
         $this->logger->notice('Fetching list of transfers...');
 
@@ -1357,7 +1302,7 @@ class Rave
      * Check  a bulk transfer status with this method
      */
 
-    public function bulkTransferStatus(string $data): object
+    public function bulkTransferStatus(array $data): string
     {
         $this->logger->notice('Checking bulk transfer status...');
         $url = '?batch_id=' . $data['batch_id'];
@@ -1368,7 +1313,7 @@ class Rave
      * Check applicable fees with this method
      */
 
-    public function applicableFees(string $data): object
+    public function applicableFees(array $data): string
     {
         $this->logger->notice('Fetching applicable fees...');
         $url = '?currency=' . $data['currency'] . '&amount=' . $data['amount'];
@@ -1379,11 +1324,11 @@ class Rave
      * Retrieve Transfer balance with this method
      */
 
-    public function getTransferBalance(string $array): object
+    public function getTransferBalance(array $array): string
     {
         $this->logger->notice('Fetching Transfer Balance...');
         if (empty($array['currency'])) {
-            $array['currency'] === 'NGN';
+            $array['currency'] = 'NGN';
         }
         $data = [
             'currency' => $array['currency'],
@@ -1395,7 +1340,7 @@ class Rave
      * Verify an Account to Transfer to with this method
      */
 
-    public function verifyAccount(string $array): object
+    public function verifyAccount(array $array): string
     {
         $this->logger->notice('Verifying transfer recipents account...');
         $data = [
@@ -1422,7 +1367,7 @@ class Rave
      * Captures funds this method
      */
 
-    public function captureFunds(string $array): object
+    public function captureFunds(array $array): string
     {
         $this->logger->notice('capturing funds for flw_ref: ' . $array['flw_ref'] . ' ...');
         unset($array['flw_ref']);
@@ -1443,7 +1388,7 @@ class Rave
      * Void a Preauthorized fund with this method
      */
 
-    public function void(string $array): object
+    public function void(array $array): string
     {
         $this->logger->notice('voided a captured fund with the flw_ref=' . $array['flw_ref']);
         unset($array['flw_ref']);
@@ -1455,7 +1400,7 @@ class Rave
      * Refund a Preauthorized fund with this method
      */
 
-    public function preRefund(string $array): object
+    public function preRefund(array $array): string
     {
         $this->logger->notice('refunding a captured fund with the flw_ref=' . $array['flw_ref']);
         unset($array['flw_ref']);

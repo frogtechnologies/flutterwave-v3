@@ -1,0 +1,42 @@
+{
+    "name": "frog/flutterwave-v3",
+    "description": "A streamlined version of the Flutterwave v3 package",
+    "keywords": [
+        "frog",
+        "flutterwave-v3"
+    ],
+    "homepage": "https://github.com/frog/flutterwave-v3",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Miller Adulu",
+            "email": "frog.tech@outlook.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Frog\\FlutterwaveV3\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Frog\\FlutterwaveV3\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

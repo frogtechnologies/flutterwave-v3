@@ -16,7 +16,11 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0"
+        "ext-json": "*",
+        "php": "^7.4|^8.0",
+        "mashape/unirest-php": "^3.0",
+        "monolog/monolog": "^2.5",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "nunomaduro/phpinsights": "^2.2",

@@ -744,7 +744,6 @@ class Rave
         $this->setEndPoint('v3/transactions');
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -887,7 +886,6 @@ class Rave
         $this->logger->notice('Creating Payment Plan...');
         $result = $this->postURL($array);
         return json_decode($result, true);
-    
     }
 
     public function updatePlan($array)
@@ -896,7 +894,6 @@ class Rave
 
         $result = $this->putURL($array);
         return json_decode($result, true);
-    
     }
 
     public function cancelPlan($array)
@@ -905,7 +902,6 @@ class Rave
 
         $result = $this->putURL($array);
         return json_decode($result, true);
-    
     }
 
     public function getPlans()
@@ -913,7 +909,6 @@ class Rave
         $url = '';
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     public function get_a_Plan()
@@ -921,7 +916,6 @@ class Rave
         $url = '';
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -935,7 +929,6 @@ class Rave
         $this->logger->notice('Creating beneficiaries ...');
         $result = $this->postURL($array);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -949,7 +942,6 @@ class Rave
         $url = '';
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -963,7 +955,6 @@ class Rave
         $this->logger->notice('Processing transfer...');
         $result = $this->postURL($array);
         return json_decode($result, true);
-    
     }
 
     public function deleteBeneficiary()
@@ -971,7 +962,6 @@ class Rave
         $url = '';
         $result = $this->delURL($url);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -985,7 +975,6 @@ class Rave
         $this->logger->notice('Processing bulk transfer...');
         $result = $this->postURL($array);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -999,7 +988,6 @@ class Rave
         $this->logger->notice('Initiating a refund...');
         $result = $this->postURL($array);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1106,14 +1094,12 @@ class Rave
         $url = '';
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     public function vcPutRequest($array = [])
     {
         $result = $this->putURL($array);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1128,7 +1114,6 @@ class Rave
         //pass $this->options to the postURL function to call the api
         $result = $this->postURL($this->options);
         return json_decode($result, true);
-    
     }
 
     public function getSubaccounts()
@@ -1137,7 +1122,6 @@ class Rave
         //pass $this->options to the postURL function to call the api
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     public function fetchSubaccount()
@@ -1146,7 +1130,6 @@ class Rave
         //pass $this->options to the postURL function to call the api
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     public function updateSubaccount($array)
@@ -1156,7 +1139,6 @@ class Rave
         //pass $this->options to the postURL function to call the api
         $result = $this->putURL($this->options);
         return json_decode($result, true);
-    
     }
 
     public function deleteSubaccount($array = [])
@@ -1165,7 +1147,6 @@ class Rave
         //pass $this->options to the postURL function to call the api
         $result = $this->putURL($array);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1250,7 +1231,6 @@ class Rave
         ];
         $result = $this->postURL($data);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1267,7 +1247,6 @@ class Rave
 
         $result = $this->putURL($data);
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1292,7 +1271,6 @@ class Rave
         $result = $this->postUrl($data);
 
         return json_decode($result, true);
-    
     }
 
     public function bulkBills($array)
@@ -1302,7 +1280,6 @@ class Rave
         $result = $this->postUrl($data);
 
         return json_decode($result, true);
-    
     }
 
     public function getBill($array)
@@ -1349,7 +1326,6 @@ class Rave
         $result = $this->postUrl($array);
 
         return json_decode($result, true);
-    
     }
 
     /**
@@ -1375,8 +1351,6 @@ class Rave
 
         $url = '';
         return json_decode($this->getURL($url), true);
-
-    
     }
 
     /**
@@ -1463,7 +1437,6 @@ class Rave
         $url = '';
         $result = $this->getURL($url);
         return json_decode($result, true);
-    
     }
 
     /**

@@ -17,7 +17,7 @@
     ],
     "require": {
         "ext-json": "*",
-        "php": "^7.4|^8.0",
+        "php": "^7.4|^8.0|^8.1",
         "mashape/unirest-php": "^3.0",
         "monolog/monolog": "^2.5",
         "ext-openssl": "*"
